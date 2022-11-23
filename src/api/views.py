@@ -4,7 +4,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import FileSerializer
-from config import basepath
+from api.config import basepath
 import logging
 # Create your views here.
 

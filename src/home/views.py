@@ -4,13 +4,10 @@ from django.shortcuts import render , redirect
 from django.http import HttpResponse
 from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
-from home.models import Destination
 import time
 
 def index(request):
-    dest1 = Destination
-    dest1.name = 'Raigad'
-    return render(request, 'index.html', {'dest1': dest1})
+    return render(request, 'index.html')
 
 # <------------------Global Method Send Email Function Start here ------------------------------>
 def send_email(sub,message,reciver_email):
