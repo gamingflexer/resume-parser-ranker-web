@@ -2,7 +2,9 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+import logging
 
+logging.basicConfig(filename="log.txt",level=logging.DEBUG)
 
 def main():
     """Run administrative tasks."""
