@@ -1,115 +1,64 @@
-from django.contrib.auth.models import User
-from django.contrib.auth import logout,authenticate,login
-from django.shortcuts import render , redirect
-from django.http import HttpResponse
-from django.core.mail import send_mail
-from django.views.decorators.csrf import csrf_exempt
-import time
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from .forms import RegisterUserForm
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'index.html', {})
 
-# <------------------Global Method Send Email Function Start here ------------------------------>
-def send_email(sub,message,reciver_email):
-    try:
-        send_mail(
-        ''+sub+'',
-        ''+message+'',
-        'sourceparser@gmail.com',
-        [reciver_email],
-        fail_silently=False,
-        )
-        return 1
-    except:
-        return 0
+@login_required()
+def dashboard(request):
+    return render(request, 'dashboard.html', {})
 
+@login_required()
+def profile(request):
+    return render(request, 'profile.html', {})
 
-# <------------------Autintication sign in sign up class start here------------------------------>
-class Auth:
+@login_required()
+def upload(request):
+    return render(request, 'upload.html', {})
 
-    #< **********Common function to check redundancy of username , email or phone in database********>
-    def check_redundent_info(email,username,password):
-            # Now Perform some validation If Username , Number or email exists in database
-            if User.objects.filter(password=password).exists():
-                #send 0 to show password exist in db
-                return 1
-            elif User.objects.filter(username=username).exists():
-                #send 2 to show username exist in db
-                return 0
-            elif User.objects.filter(email=email).exists():
-                #send 2 to show email exist in db
-                return 2                               
-            else:
-                #ereturn 3 to say all ok
-                return 3
+def page_404(request):
+    return render(request, 'page_404.html', {})
 
-    #< **********End of Common function to check redundancy of username , email or phone in database********>
-         # <------------------Send otp is start here------------------------------>
-    # def send_otp(request):
-    #     if request.method =='POST':
-    #         email = request.POST.get('email')
-    #         name = request.POST.get('name')
-    #         password = request.POST.get("password")
-    #         username = request.POST.get("username")
-    #         # call function to check Redundancy of email , phone, username
-    #         flag =Auth.check_redundent_info(email,username,password)
-    #         if flag==3:
-    #             otp = random.randrange(1000,10000)
-    #             #call send msg function
-    #             flag = send_email("Your otp For Signup",f"Hii {name},greeting from Agrorent Your Otp For Verfication Is --> {str(otp)}",email)
-    #             if flag: #send otp if all work fine
-    #                 return HttpResponse(otp)
-    #             else:   #send -1 as error flag
-    #                 return HttpResponse("-1")
-    #         else:
-    #             return HttpResponse(str(flag))
-
-      # <---------------------------Signin  Function is start here------------------------------>
-
-    def sign_in(request):
-        if request.method =="POST":
-            username = request.POST.get("username")
-            password = request.POST.get("password")
-            user = authenticate( request,username=username, password=password)
-            # check if user entered correct crediantials
-            if user is not None:
-                login(request, user)
-                #send Signal 1 to indicate login succesfully
-                return HttpResponse("1")
-                # return redirect("/")
-                # A backend authenticated the credentials
-            else:
-                # No backend authenticated the credentials
-                #send Signal 0 to indicate Something went Wrong
-                return HttpResponse("0")
+def login_user(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
         else:
-          return render(request,"index.html")
+            messages.success(request, ("There Was An Error Logging In, Try Again..."))	
+            return redirect('login')	
+
+    else:
+        return render(request, 'auth/login.html', {})
+
+def logout_user(request):
+    logout(request)
+    messages.success(request, ("You Were Logged Out!"))
+    return redirect('home')
 
 
-    
+def register_user(request):
+    if request.method == "POST":
+        form = RegisterUserForm(request.POST)
+        context ={}
+        context['form']= form
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            messages.success(request, ("Registration Successful!"))
+            return redirect('home')
+    else:
+        form = RegisterUserForm()
 
-        # <------------------Signup function is start here------------------------------>
-
-    def sign_up(request):
-        # cHECK FOR pOST method and get the All required field
-        if request.method =='POST':
-            password = request.POST.get("password")
-            username = request.POST.get("username")
-            email=request.POST.get("email")
-            name=request.POST.get("name")
-            # call function to check Redundancy of email , phone, username
-            flag = Auth.check_redundent_info(email,username,password)
-            if flag==3:
-                user = User.objects.create_user(username=username, password=password, email=email,first_name=name).save()
-                #send 3 to Indicate All Above Mentioned Field Are Unique And saved succesully.
-                return HttpResponse(3)
-            else:
-                return HttpResponse(str(flag))
-
-        return render(request,"index.html")
-
-    # <------------------Logout/Sign-out  function is start here------------------------------>
-
-    def sign_out(request):
-        logout(request)
-        return redirect("/")
+    return render(request, 'auth/register_user.html', {
+        'form':form,
+        })
