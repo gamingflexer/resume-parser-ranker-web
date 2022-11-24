@@ -229,3 +229,8 @@
       transform: translateX(0px);
     }
   } 
+  .error-message {
+    color: #ff0000;
+    font-size: 14px;
+    margin-top: 10px;
+}

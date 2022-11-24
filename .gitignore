@@ -130,3 +130,4 @@ dmypy.json
 src/log.txt
 src/static/CACHE/css/*.css
 src/templates/index2.html
+todos.md
