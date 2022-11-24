@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}SourceParser{% endblock title %}
+{% block body %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+{% load compress %}
+{% compress css %}
+<link type="text/x-scss" href="{% static '/css/profile.scss' %}" rel="stylesheet" media="screen">
+{% endcompress %}
+<div class="card">
+	<div class="person">
+		<img src="https://cdn-icons-png.flaticon.com/512/2922/2922653.png" alt="">
+	</div>
+</div>
+<h3 class="title">Raiany Girassol</h3>
+</html>
+{% endblock body %}
