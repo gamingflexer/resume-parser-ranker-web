@@ -22,6 +22,9 @@ def upload(request):
 def page_404(request):
     return render(request, 'page_404.html', {})
 
+def resume(request):
+    return render(request, 'resume.html', {})
+
 def login_user(request):
     if request.method == "POST":
         username = request.POST['username']
