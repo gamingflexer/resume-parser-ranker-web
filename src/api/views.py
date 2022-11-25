@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 from .serializers import FileSerializer
 from api.config import basepath
@@ -22,7 +23,7 @@ class BaseAPI(APIView):
             return Response(status=status.HTTP_200_OK)
         
         
-class FileView(APIView):  # for getting REPORT upload
+class FileView(APIView):
     parser_classes = (MultiPartParser, FormParser)
 
     def post(self, request, *args, **kwargs):

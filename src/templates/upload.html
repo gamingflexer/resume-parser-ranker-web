@@ -23,7 +23,7 @@
                 <span class="upload-filename inactive drop-text">No file selected</span>
             </div>
             <button class="upload-button">
-                <input type="file" id="file" onchange="uploadFile()" />
+                <input type="file" id="file" onchange="uploadFile(event)" />
                 <label for="file" class="upload-button-text">Choose file</label>
             </button>
             <div class="upload-hint">Uploading...</div>
@@ -52,11 +52,18 @@
 
             uploadButtonText.addEventListener("click", async () => {
                 upload.classList.add("uploading")
-
-                // Here you can upload the file to a database, server, or wherever you need it.
-                // You can access the uploaded file by the `file` parameter.
-
-                // Reset the input after a delay. For actual use, only remove the uploading class when the file is done uploading!
+                var data = new FormData()
+                data.append('file', file)
+                console.log(data)
+                let submitted = await fetch('http://127.0.0.1:8000/api/upload', {
+                    headers: { "X-CSRFToken": '{{csrf_token}}' },
+                    method: 'POST',
+                    body: data
+                }).then(response => response.json().catch(error => console.error(error)))
+                if (submitted['data'] == "File Uploaded Successfully"){
+                    console.log("File Uploaded")
+                    window.location.replace("http://127.0.0.1:8000/resume");
+                }
                 setTimeout(() => {
                     upload.classList.remove("uploading")
                 }, 5000)
