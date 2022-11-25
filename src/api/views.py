@@ -34,11 +34,6 @@ class FileView(APIView):
             logging.info("Report File Saved !")
             newPath = basepath + '/' + pathOfFile
             print("File Saved: ", newPath)
-            try:
-                context = {"data": "File Uploaded Successfully"}
-                return Response(context, status=status.HTTP_200_OK)
-            except Exception as e:
-                print("Report Gen File error - DJANGO SIDE - ", e)
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(file_serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(file_serializer.errors['file'], status=status.HTTP_400_BAD_REQUEST)
