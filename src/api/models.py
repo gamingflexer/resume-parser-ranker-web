@@ -16,6 +16,7 @@ class Resumes(models.Model):
   user = models.ForeignKey(User, on_delete=models.CASCADE)
   file_name = models.CharField(max_length=1000, default="")
   file_Id = models.CharField(max_length=1000, default="")
+  date = models.DateTimeField(auto_now_add=True)
   #summary
   summary = models.TextField(max_length=10000, default="")
   #personal
