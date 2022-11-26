@@ -7,13 +7,12 @@ class File(models.Model):
   timestamp = models.DateTimeField(auto_now_add=True)
   
 class UserInfo(models.Model):
-  user = models.ForeignKey(User, on_delete=models.CASCADE)
+  user = models.CharField(max_length=100, default="")
   total_uploads = models.IntegerField(default=0)
   in_progress = models.IntegerField(default=0)
-  user_name = models.CharField(max_length=100, default="")
     
 class Resumes(models.Model):
-  user = models.ForeignKey(User, on_delete=models.CASCADE)
+  user = models.CharField(max_length=100, default="")
   file_name = models.CharField(max_length=1000, default="")
   file_Id = models.CharField(max_length=1000, default="")
   date = models.DateTimeField(auto_now_add=True)
