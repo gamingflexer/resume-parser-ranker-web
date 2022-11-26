@@ -30,7 +30,8 @@ def page_404(request):
     return render(request, 'page_404.html', {})
 
 @login_required(login_url='/login/')
-def resume(request):
+def resume(request,file_id):
+    print(file_id)
     return render(request, 'resume.html', {})
 
 def login_user(request):

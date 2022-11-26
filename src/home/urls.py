@@ -10,6 +10,8 @@ urlpatterns = [
     path('upload',views.upload,name='upload'),
     path('profile',views.profile,name='profile'),
     path('resume/<str:file_id>',views.resume,name='resume'),
+    path('resume',views.resume,name='resume'),
+    
     # path('forgetpassword',views.forget_password,name='forget_password'),    
     #<-------- other path / urls end here ------->
     path('dashboard', views.dashboard, name='home'),
