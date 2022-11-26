@@ -133,3 +133,4 @@ src/templates/index2.html
 todos.md
 src/media/*
 src/api/migrations/*
+src/api/migrations/0001_initial.py

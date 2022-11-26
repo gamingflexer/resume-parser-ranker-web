@@ -908,3 +908,12 @@ button, a {
     top: 10px;
   }
 }
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+}
