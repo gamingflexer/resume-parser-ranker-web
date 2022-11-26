@@ -7,7 +7,7 @@ from rest_framework import status
 from .serializers import FileSerializer,UserInfoSerializer,ResumesSerializer
 from .models import UserInfo,Resumes
 from api.config import basepath
-from api.utils import uuid4_generator
+from api.utils import uuid4_generator,to_json
 import logging
 # Create your views here.
 
@@ -50,21 +50,22 @@ class FileView(APIView):
             
 # extra functions
 
-def dashboard_data(user):
+def dashboard_data_main(user):
     users_list = UserInfo.objects.filter(user=user)
-    users_list_serializer = UserInfoSerializer(users_list, many=True)
-    users_list_serializer_data = users_list_serializer.data
-    context = {}
+    users_list_serializer_data = UserInfoSerializer(users_list, many=True).data
+    context = []
     for user_single in users_list_serializer_data:
         if user_single['user'] == user:
-            context['user'] = user_single['user']
-            context['total_uploads'] = user_single['total_uploads']
-            context['in_progress'] = user_single['in_progress']
-            return context
-    else:
-        data_map = {"user":user}
-        serialized = UserInfoSerializer(data=data_map)
-        if serialized.is_valid():
-            serialized.save()
-            dashboard_data(user)
+            context.append({"user":user,"total_uploads":user_single['total_uploads'],"in_progress":user_single['in_progress']})
+            return context[0]
+        else:
+            data_map = {"user":user}
+            serialized = UserInfoSerializer(data=data_map)
+            if serialized.is_valid():
+                serialized.save()
+                dashboard_data(user)
             
+def dashboard_data(user):
+    resumes_list = Resumes.objects.filter(user=user)
+    resumes_list_serializer_data = ResumesSerializer(resumes_list, many=True).data
+    return to_json(resumes_list_serializer_data)
