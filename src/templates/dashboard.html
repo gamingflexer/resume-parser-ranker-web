@@ -134,11 +134,11 @@
             <div class="projects-section-line">
                 <div class="projects-status">
                     <div class="item-status">
-                        <span class="status-number">45</span>
+                        <span class="status-number">{{data.in_progress}}</span>
                         <span class="status-type">In Progress</span>
                     </div>
                     <div class="item-status">
-                        <span class="status-number">24</span>
+                        <span class="status-number">{{data.total_uploads}}</span>
                         <span class="status-type">Total Resumes</span>
                     </div>
                     <div class="item-status">
@@ -472,12 +472,13 @@
             <div class="projects-section-header">
                 <p>Summaries</p>
             </div>
+            {% if data2.0.name %}
             <div class="messages">
                 <div class="message-box">
                     <img src="https://cdn-icons-png.flaticon.com/512/2105/2105556.png" alt="profile image">
                     <div class="message-content">
                         <div class="message-header">
-                            <div class="name">Stephanie</div>
+                            <div class="name">{{data2.0.name}}</div>
                             <div class="star-checkbox">
                                 <input type="checkbox" id="star-1">
                                 <label for="star-1">
@@ -491,18 +492,20 @@
                             </div>
                         </div>
                         <p class="message-line">
-                            I got your first assignment. It was quite good. 🥳 We can continue with the next assignment.
+                            {{data2.0.summary}}
                         </p>
                         <p class="message-line time">
                             Dec, 12
                         </p>
                     </div>
-                </div>
+                </div>                
+                {% endif %}
+                {% if data2.1.name %}
                 <div class="message-box">
                     <img src="https://cdn-icons-png.flaticon.com/512/2105/2105556.png" alt="profile image">
                     <div class="message-content">
                         <div class="message-header">
-                            <div class="name">Mark</div>
+                            <div class="name">{{data2.1.name}}</div>
                             <div class="star-checkbox">
                                 <input type="checkbox" id="star-2">
                                 <label for="star-2">
@@ -516,18 +519,20 @@
                             </div>
                         </div>
                         <p class="message-line">
-                            Hey, can tell me about progress of project? I'm waiting for your response.
+                            {{data2.1.summary}}
                         </p>
                         <p class="message-line time">
                             Dec, 12
                         </p>
                     </div>
                 </div>
+                {% endif %}
+                {% if data2.2.name %}
                 <div class="message-box">
                     <img src="https://cdn-icons-png.flaticon.com/512/2105/2105556.png" alt="profile image">
                     <div class="message-content">
                         <div class="message-header">
-                            <div class="name">David</div>
+                            <div class="name">{{data2.2.name}}</div>
                             <div class="star-checkbox">
                                 <input type="checkbox" id="star-3">
                                 <label for="star-3">
@@ -541,18 +546,20 @@
                             </div>
                         </div>
                         <p class="message-line">
-                            Awesome! 🤩 I like it. We can schedule a meeting for the next one.
+                            {{data2.2.summary}}
                         </p>
                         <p class="message-line time">
                             Dec, 12
                         </p>
                     </div>
                 </div>
+                {% endif %}
+                {% if data2.3.name %}
                 <div class="message-box">
                     <img src="https://cdn-icons-png.flaticon.com/512/2105/2105556.png" alt="profile image">
                     <div class="message-content">
                         <div class="message-header">
-                            <div class="name">Jessica</div>
+                            <div class="name">{{data2.3.name}}</div>
                             <div class="star-checkbox">
                                 <input type="checkbox" id="star-4">
                                 <label for="star-4">
@@ -566,12 +573,13 @@
                             </div>
                         </div>
                         <p class="message-line">
-                            I am really impressed! Can't wait to see the final result.
+                            {{data2.3.summary}}
                         </p>
                         <p class="message-line time">
                             Dec, 11
                         </p>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

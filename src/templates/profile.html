@@ -13,6 +13,8 @@
 		<img src="https://cdn-icons-png.flaticon.com/512/2922/2922653.png" alt="">
 	</div>
 </div>
-<h3 class="title">Raiany Girassol</h3>
+{% if user.is_authenticated %}
+<h3 class="title">{{ user.username }}</h3>
+{% endif %}
 </html>
 {% endblock body %}
